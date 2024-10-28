@@ -83,6 +83,17 @@ module "module-workload-subnet-a" {
   }
 }
 
+## PEERING CONNECTION (ACCEPTER)
+module "peering_accepter" {
+  source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
+  version = "0.0.1"
+
+  peer_vpc_id = module.module-vpc-b.output_vpc_id
+  peer_tags = {
+    Name        = "${local.projectname}-${local.environment}-peering-a"
+    Environment = local.environment
+  }
+}
 
 
 ### VPC B ###
@@ -109,6 +120,19 @@ module "module-workload-subnet-b" {
   subnet_cidr = "10.60.10.0/24"
   subnet_tags = {
     Name        = "${local.projectname}-${local.environment}-workload-subnet-b"
+    Environment = local.environment
+  }
+}
+
+## PEERING CONNECTION (OWNER)
+module "peer-owner" {
+  source  = "app.terraform.io/marvsmpb/vpc-peering-owner-marvs/aws"
+  version = "0.0.1"
+
+  vpc_id      = module.module-vpc-b.output_vpc_id
+  peer_vpc_id = module.module-vpc-a.output_vpc_id
+  owner_tags = {
+    Name        = "${local.projectname}-${local.environment}-peering-b"
     Environment = local.environment
   }
 }
