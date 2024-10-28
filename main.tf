@@ -86,7 +86,7 @@ module "module-workload-subnet-a" {
 ## PEERING CONNECTION (ACCEPTER)
 module "peering_accepter" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
-  version = "0.0.1"
+  version = "0.0.2"
 
   peer_vpc_id = module.module-vpc-b.output_vpc_id
   peer_tags = {
