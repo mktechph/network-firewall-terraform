@@ -32,7 +32,7 @@ module "module-vpc-a" {
 }
 
 ## PUBLIC SUBNET
-module "module-public-subnet" {
+module "module-public-subnet-a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
   version = "0.0.4"
 
@@ -56,7 +56,7 @@ module "module-public-subnet" {
 }
 
 ## FIREWALL SUBNET
-module "module-firewall-subnet" {
+module "module-firewall-subnet-a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
   version = "0.0.4"
 
@@ -70,7 +70,7 @@ module "module-firewall-subnet" {
 }
 
 ## WORKLOAD SUBNET
-module "module-workload-subnet" {
+module "module-workload-subnet-a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
   version = "0.0.4"
 
@@ -100,7 +100,7 @@ module "module-vpc-b" {
 }
 
 ## WORKLOAD SUBNET
-module "module-workload-subnet" {
+module "module-workload-subnet-b" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
   version = "0.0.4"
 
