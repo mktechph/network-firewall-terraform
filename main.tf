@@ -88,7 +88,7 @@ module "peering_accepter" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
   version = "0.0.5"
 
-  peer_connection_id = module.peer-owner.output_peer_connection_id
+  peering_connection_id = module.peer-owner.output_peer_connection_id
   peer_tags = {
     Name        = "${local.projectname}-${local.environment}-peering-a"
     Environment = local.environment
