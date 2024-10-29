@@ -17,7 +17,7 @@ locals {
 }
 
 
-### VPC A ###
+############ VPC A ############
 
 ## VPC
 module "module_vpc_a" {
@@ -173,7 +173,55 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_public_rtb" {
   route_table_id = module.module_vpc_a_public_subnet_rtb.outputs_rtb_id
 }
 
-### VPC B ###
+
+
+## EC2 WORKLOAD
+
+module "module_vpc_a_ec2" {
+  source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
+  version = "0.0.11"
+
+  ami_name                = "ami-0c86ea25dca843f1c" # Windows Server 2022 Base 
+  ami_owner_account_id    = "801119661308"
+  ami_virtualization_type = "hvm"
+
+  instance_name     = "vpc-a-workload"
+  instance_type     = "t3.meduim"
+  instance_key_name = "tuf_key"
+  instance_subnet   = module.module_workload_subnet_a.outputs_subnet_id
+  instance_tags = {
+    Name        = "${local.projectname}-${local.environment}-ec2-a"
+    Environment = local.environment
+  }
+
+  instance_vol_root_encrypted = true
+  instance_vol_root_size      = "30"
+  instance_vol_root_type      = "gp3"
+  instance_vol_tags = {
+    Name        = "${local.projectname}-${local.environment}-root-ebs-a"
+    Environment = local.environment
+  }
+
+  ebs_attachment_name = "xvdf"
+  ebs_encrypted       = true
+  ebs_size            = "10"
+  ebs_type            = "gp3"
+  ebs_tags = {
+    Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
+    Environment = local.environment
+  }
+
+
+}
+
+
+
+
+
+
+
+
+############ VPC A ############
 
 ## VPC
 module "module_vpc_b" {
