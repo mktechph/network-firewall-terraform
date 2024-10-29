@@ -181,7 +181,7 @@ module "module_vpc_a_ec2" {
   source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
   version = "0.0.12"
 
-  ami_name                = ["ami-0c86ea25dca843f1c"] # Windows Server 2022 Base 
+  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
   ami_owner_account_id    = ["801119661308"]
   ami_virtualization_type = ["hvm"]
 
