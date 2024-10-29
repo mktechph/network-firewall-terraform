@@ -179,7 +179,7 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_public_rtb" {
 
 module "module_vpc_a_ec2" {
   source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
-  version = "0.0.11"
+  version = "0.0.12"
 
   ami_name                = "ami-0c86ea25dca843f1c" # Windows Server 2022 Base 
   ami_owner_account_id    = "801119661308"
