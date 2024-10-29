@@ -109,12 +109,13 @@ module "module_vpc_a_workload_subnet_rtb" {
   route_peering                            = module.module_peering_accepter.output_peering_id
   route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
 
+  ## PENDING: FIREWALL ENDPOINT
   #route_endpoint
   #route_endpoint_bool
   #route_endpoint_destination_cidr_block
 
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-workload-rtb-b"
+    Name        = "${local.projectname}-${local.environment}-workload-rtb-a"
     Environment = local.environment
   }
 }
@@ -137,7 +138,7 @@ module "module_vpc_a_firewall_subnet_rtb" {
   route_nat_gateway_destination_cidr_block = "0.0.0.0/0"
 
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-firewall-rtb-b"
+    Name        = "${local.projectname}-${local.environment}-firewall-rtb-a"
     Environment = local.environment
   }
 }
@@ -161,7 +162,7 @@ module "module_vpc_a_public_subnet_rtb" {
 
 
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-public-rtb-b"
+    Name        = "${local.projectname}-${local.environment}-public-rtb-a"
     Environment = local.environment
   }
 }
