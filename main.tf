@@ -186,7 +186,7 @@ module "module_vpc_a_ec2" {
   ami_virtualization_type = ["hvm"]
 
   instance_name     = "vpc-a-workload"
-  instance_type     = "t3.meduim"
+  instance_type     = "t3.medium"
   instance_key_name = "tuf_key"
   instance_subnet   = module.module_workload_subnet_a.outputs_subnet_id
   instance_tags = {
