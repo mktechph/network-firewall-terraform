@@ -34,7 +34,7 @@ module "module_vpc_a" {
 ## PUBLIC SUBNET
 module "module_public_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.12"
+  version = "0.0.13"
 
   subnet_vpc         = module.module_vpc_a.output_vpc_id
   subnet_az          = "ap-southeast-1a"
@@ -58,7 +58,7 @@ module "module_public_subnet_a" {
 ## FIREWALL SUBNET
 module "module_firewall_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.12"
+  version = "0.0.13"
 
   subnet_vpc  = module.module_vpc_a.output_vpc_id
   subnet_az   = "ap-southeast-1a"
@@ -72,7 +72,7 @@ module "module_firewall_subnet_a" {
 ## WORKLOAD SUBNET
 module "module_workload_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.12"
+  version = "0.0.13"
 
   subnet_vpc  = module.module_vpc_a.output_vpc_id
   subnet_az   = "ap-southeast-1a"
@@ -88,7 +88,7 @@ module "module_peering_accepter" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
   version = "0.0.6"
 
-  peering_connection_id = module.module_peer_owner.output_peer_connection_id
+  peering_connection_id = module.module_peer_owner.output_peering_id
   peer_tags = {
     Name        = "${local.projectname}-${local.environment}-peering-a"
     Environment = local.environment
@@ -168,7 +168,7 @@ module "module_vpc_b" {
 ## WORKLOAD SUBNET
 module "module_workload_subnet_b" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.12"
+  version = "0.0.13"
 
   subnet_vpc  = module.module_vpc_b.output_vpc_id
   subnet_az   = "ap-southeast-1a"
