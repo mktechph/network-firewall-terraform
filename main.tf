@@ -20,7 +20,7 @@ locals {
 ### VPC A ###
 
 ## VPC
-module "module-vpc-a" {
+module "module_vpc_a" {
   source  = "app.terraform.io/marvsmpb/vpc-module-marvs/aws"
   version = "1.0.3"
 
@@ -32,11 +32,11 @@ module "module-vpc-a" {
 }
 
 ## PUBLIC SUBNET
-module "module-public-subnet-a" {
+module "module_public_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.8"
+  version = "0.0.9"
 
-  subnet_vpc         = module.module-vpc-a.output_vpc_id
+  subnet_vpc         = module.module_vpc_a.output_vpc_id
   subnet_az          = "ap-southeast-1a"
   subnet_cidr        = "10.50.10.0/24"
   subnet_public_bool = true
@@ -56,11 +56,11 @@ module "module-public-subnet-a" {
 }
 
 ## FIREWALL SUBNET
-module "module-firewall-subnet-a" {
+module "module_firewall_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.8"
+  version = "0.0.9"
 
-  subnet_vpc  = module.module-vpc-a.output_vpc_id
+  subnet_vpc  = module.module_vpc_a.output_vpc_id
   subnet_az   = "ap-southeast-1a"
   subnet_cidr = "10.50.20.0/24"
   subnet_tags = {
@@ -70,11 +70,11 @@ module "module-firewall-subnet-a" {
 }
 
 ## WORKLOAD SUBNET
-module "module-workload-subnet-a" {
+module "module_workload_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.8"
+  version = "0.0.9"
 
-  subnet_vpc  = module.module-vpc-a.output_vpc_id
+  subnet_vpc  = module.module_vpc_a.output_vpc_id
   subnet_az   = "ap-southeast-1a"
   subnet_cidr = "10.50.30.0/24"
   subnet_tags = {
@@ -84,13 +84,68 @@ module "module-workload-subnet-a" {
 }
 
 ## PEERING CONNECTION (ACCEPTER)
-module "peering_accepter" {
+module "module_peering_accepter" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
   version = "0.0.5"
 
-  peering_connection_id = module.peer-owner.output_peer_connection_id
+  peering_connection_id = module.module_peer_owner.output_peer_connection_id
   peer_tags = {
     Name        = "${local.projectname}-${local.environment}-peering-a"
+    Environment = local.environment
+  }
+}
+
+## WORKLOAD SUBNET ROUTE TABLE
+module "module_vpc_a_workload_subnet_rtb" {
+  source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
+  version = "0.0.4"
+
+  rtb_vpc                                  = module.module_vpc_a.output_vpc_id
+  route_peering_bool                       = true
+  route_peering                            = module.module_peering_accepter.output_peer_connection_id
+  route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
+
+  #route_endpoint
+  #route_endpoint_bool
+  #route_endpoint_destination_cidr_block
+
+  rtb_tags = {
+    Name        = "${local.projectname}-${local.environment}-private-rtb-b"
+    Environment = local.environment
+  }
+}
+
+## FIREWALL SUBNET ROUTE TABLE
+module "module_vpc_a_firewall_subnet_rtb" {
+  source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
+  version = "0.0.4"
+
+  rtb_vpc = module.module_vpc_a.output_vpc_id
+
+  route_nat_gateway_bool                   = true
+  route_nat_gateway                        = module.module_public_subnet_a.outputs_nat_gateway_id
+  route_nat_gateway_destination_cidr_block = "0.0.0.0/0"
+
+  rtb_tags = {
+    Name        = "${local.projectname}-${local.environment}-private-rtb-b"
+    Environment = local.environment
+  }
+}
+
+## PUBLIC SUBNET ROUTE TABLE
+module "module_vpc_a_public_subnet_rtb" {
+  source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
+  version = "0.0.4"
+
+  rtb_vpc = module.module_vpc_a.output_vpc_id
+
+  route_internet_gateway_bool                   = true
+  route_internet_gateway                        = module.module_public_subnet_a.outputs_internet_gateway_id
+  route_internet_gateway_destination_cidr_block = "0.0.0.0/0"
+
+
+  rtb_tags = {
+    Name        = "${local.projectname}-${local.environment}-private-rtb-b"
     Environment = local.environment
   }
 }
@@ -99,7 +154,7 @@ module "peering_accepter" {
 ### VPC B ###
 
 ## VPC
-module "module-vpc-b" {
+module "module_vpc_b" {
   source  = "app.terraform.io/marvsmpb/vpc-module-marvs/aws"
   version = "1.0.3"
 
@@ -111,11 +166,11 @@ module "module-vpc-b" {
 }
 
 ## WORKLOAD SUBNET
-module "module-workload-subnet-b" {
+module "module_workload_subnet_b" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.8"
+  version = "0.0.9"
 
-  subnet_vpc  = module.module-vpc-b.output_vpc_id
+  subnet_vpc  = module.module_vpc_b.output_vpc_id
   subnet_az   = "ap-southeast-1a"
   subnet_cidr = "10.60.10.0/24"
   subnet_tags = {
@@ -125,14 +180,30 @@ module "module-workload-subnet-b" {
 }
 
 ## PEERING CONNECTION (OWNER)
-module "peer-owner" {
+module "module_peer_owner" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-owner-marvs/aws"
   version = "0.0.2"
 
-  vpc_id      = module.module-vpc-b.output_vpc_id
-  peer_vpc_id = module.module-vpc-a.output_vpc_id
+  vpc_id      = module.module_vpc_b.output_vpc_id
+  peer_vpc_id = module.module_vpc_a.output_vpc_id
   owner_tags = {
     Name        = "${local.projectname}-${local.environment}-peering-b"
+    Environment = local.environment
+  }
+}
+
+## WORKLOAD SUBNET ROUTE TABLE
+module "module_vpc_b_workload_subnet_rtb" {
+  source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
+  version = "0.0.4"
+
+  rtb_vpc                                  = module.module_vpc_b.output_vpc_id
+  route_peering_bool                       = true
+  route_peering                            = module.module_peer_owner.output_peer_connection_id
+  route_vpc_peering_destination_cidr_block = "0.0.0.0/0"
+
+  rtb_tags = {
+    Name        = "${local.projectname}-${local.environment}-private-rtb-b"
     Environment = local.environment
   }
 }
