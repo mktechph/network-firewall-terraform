@@ -34,7 +34,7 @@ module "module_vpc_a" {
 ## PUBLIC SUBNET
 module "module_public_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.13"
+  version = "0.0.14"
 
   subnet_vpc         = module.module_vpc_a.output_vpc_id
   subnet_az          = "ap-southeast-1a"
@@ -53,12 +53,16 @@ module "module_public_subnet_a" {
     Name        = "${local.projectname}-${local.environment}-natgw-a"
     Environment = local.environment
   }
+  eip_tags = {
+    Name        = "${local.projectname}-${local.environment}-eip-a"
+    Environment = local.environment
+  }
 }
 
 ## FIREWALL SUBNET
 module "module_firewall_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.13"
+  version = "0.0.14"
 
   subnet_vpc  = module.module_vpc_a.output_vpc_id
   subnet_az   = "ap-southeast-1a"
@@ -72,7 +76,7 @@ module "module_firewall_subnet_a" {
 ## WORKLOAD SUBNET
 module "module_workload_subnet_a" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.13"
+  version = "0.0.14"
 
   subnet_vpc  = module.module_vpc_a.output_vpc_id
   subnet_az   = "ap-southeast-1a"
@@ -115,6 +119,12 @@ module "module_vpc_a_workload_subnet_rtb" {
   }
 }
 
+## WORKLOAD SUBNET ROUTE TABLE ASSOCIATION
+resource "aws_route_table_association" "rtb_assoc_vpc_a_workload_rtb" {
+  subnet_id      = module.module_workload_subnet_a.outputs_subnet_id
+  route_table_id = module.module_vpc_a_workload_subnet_rtb.outputs_rtb_id
+}
+
 ## FIREWALL SUBNET ROUTE TABLE
 module "module_vpc_a_firewall_subnet_rtb" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
@@ -130,6 +140,12 @@ module "module_vpc_a_firewall_subnet_rtb" {
     Name        = "${local.projectname}-${local.environment}-firewall-rtb-b"
     Environment = local.environment
   }
+}
+
+## FIREWALL SUBNET ROUTE TABLE ASSOCIATION
+resource "aws_route_table_association" "rtb_assoc_vpc_a_firewall_rtb" {
+  subnet_id      = module.module_firewall_subnet_a.outputs_subnet_id
+  route_table_id = module.module_vpc_a_firewall_subnet_rtb.outputs_rtb_id
 }
 
 ## PUBLIC SUBNET ROUTE TABLE
@@ -150,6 +166,11 @@ module "module_vpc_a_public_subnet_rtb" {
   }
 }
 
+## PUBLIC SUBNET ROUTE TABLE ASSOCIATION
+resource "aws_route_table_association" "rtb_assoc_vpc_a_public_rtb" {
+  subnet_id      = module.module_public_subnet_a.outputs_subnet_id
+  route_table_id = module.module_vpc_a_public_subnet_rtb.outputs_rtb_id
+}
 
 ### VPC B ###
 
@@ -168,7 +189,7 @@ module "module_vpc_b" {
 ## WORKLOAD SUBNET
 module "module_workload_subnet_b" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
-  version = "0.0.13"
+  version = "0.0.14"
 
   subnet_vpc  = module.module_vpc_b.output_vpc_id
   subnet_az   = "ap-southeast-1a"
@@ -206,4 +227,10 @@ module "module_vpc_b_workload_subnet_rtb" {
     Name        = "${local.projectname}-${local.environment}-private-rtb-b"
     Environment = local.environment
   }
+}
+
+## WORKLOAD SUBNET ROUTE TABLE ASSOCIATION
+resource "aws_route_table_association" "rtb_assoc_vpc_b_workload_rtb" {
+  subnet_id      = module.module_workload_subnet_b.outputs_subnet_id
+  route_table_id = module.module_vpc_b_workload_subnet_rtb.outputs_rtb_id
 }
