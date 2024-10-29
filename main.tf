@@ -110,7 +110,7 @@ module "module_vpc_a_workload_subnet_rtb" {
   #route_endpoint_destination_cidr_block
 
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-private-rtb-b"
+    Name        = "${local.projectname}-${local.environment}-workload-rtb-b"
     Environment = local.environment
   }
 }
@@ -127,7 +127,7 @@ module "module_vpc_a_firewall_subnet_rtb" {
   route_nat_gateway_destination_cidr_block = "0.0.0.0/0"
 
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-private-rtb-b"
+    Name        = "${local.projectname}-${local.environment}-firewall-rtb-b"
     Environment = local.environment
   }
 }
@@ -145,7 +145,7 @@ module "module_vpc_a_public_subnet_rtb" {
 
 
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-private-rtb-b"
+    Name        = "${local.projectname}-${local.environment}-public-rtb-b"
     Environment = local.environment
   }
 }
