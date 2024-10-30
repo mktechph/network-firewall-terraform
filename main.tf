@@ -110,7 +110,7 @@ module "module_vpc_a_workload_subnet_rtb" {
   route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
 
   ## FIREWALL ENDPOINT                                                    
-  route_endpoint                        = element([for ss in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : ss.attachment[0].endpoint_id if any([for a in tolist(ss.attachment) : a.subnet_id == module.module_firewall_subnet_a.outputs_subnet_id])], 0)
+  route_endpoint                        = element([for ss in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : ss.attachment[0].endpoint_id if length([for a in tolist(ss.attachment) : a if a.subnet_id == module.module_firewall_subnet_a.outputs_subnet_id]) > 0], 0)
   route_endpoint_bool                   = true
   route_endpoint_destination_cidr_block = "0.0.0.0/0"
 
@@ -178,9 +178,9 @@ module "module_vpc_a_firewall" {
   source  = "app.terraform.io/marvsmpb/network-firewall-marvs/aws"
   version = "0.0.14"
 
-  network_firewall_name      = "${local.projectname}-firewall"
+  network_firewall_name        = "${local.projectname}-firewall"
   network_firewall_subnet_id = [module.module_firewall_subnet_a.outputs_subnet_id]
-  network_firewall_vpc_id    = module.module_vpc_a.output_vpc_id
+  network_firewall_vpc_id      = module.module_vpc_a.output_vpc_id
   network_firewall_tags = {
     Environment = local.environment
   }
