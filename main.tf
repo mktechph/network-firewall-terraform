@@ -109,7 +109,7 @@ module "module_vpc_a_workload_subnet_rtb" {
   route_peering                            = module.module_peering_accepter.output_peering_id
   route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
 
-  ## FIREWALL ENDPOINT
+  ## FIREWALL ENDPOINT                    
   route_endpoint                        = element(module.module_vpc_a_firewall.output_network_firewall_endpoint_id, 0)
   route_endpoint_bool                   = true
   route_endpoint_destination_cidr_block = "0.0.0.0/0"
@@ -176,7 +176,7 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_public_rtb" {
 ## FIREWALL
 module "module_vpc_a_firewall" {
   source  = "app.terraform.io/marvsmpb/network-firewall-marvs/aws"
-  version = "0.0.2"
+  version = "0.0.3"
 
   network_firewall_name        = "${local.projectname}-firewall"
   network_firewall_subnet_id_1 = "ap-southeast-1a"
