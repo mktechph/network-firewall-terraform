@@ -109,10 +109,10 @@ module "module_vpc_a_workload_subnet_rtb" {
   route_peering                            = module.module_peering_accepter.output_peering_id
   route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
 
-  ## PENDING: FIREWALL ENDPOINT
-  #route_endpoint
-  #route_endpoint_bool
-  #route_endpoint_destination_cidr_block
+  ## FIREWALL ENDPOINT
+  route_endpoint                        = element(module.module_vpc_a_firewall.output_network_firewall_endpoint_id, 0)
+  route_endpoint_bool                   = true
+  route_endpoint_destination_cidr_block = "0.0.0.0/0"
 
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-workload-rtb-a"
@@ -173,10 +173,34 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_public_rtb" {
   route_table_id = module.module_vpc_a_public_subnet_rtb.outputs_rtb_id
 }
 
+## FIREWALL
+module "module_vpc_a_firewall" {
+  source  = "app.terraform.io/marvsmpb/network-firewall-marvs/aws"
+  version = "0.0.2"
+
+  network_firewall_name        = "${local.projectname}-firewall"
+  network_firewall_subnet_id_1 = "ap-southeast-1a"
+  network_firewall_vpc_id      = module.module_vpc_a.output_vpc_id
+  network_firewall_tags = {
+    Environment = local.environment
+  }
+
+  firewall_policy_name = "${local.projectname}-firewall-policy"
+  network_firewall_policy_tags = {
+    Environment = local.environment
+  }
+
+  firewall_policy_stateful_default_actions         = ["aws:drop_established", "aws:alert_established"]
+  firewall_policy_stateful_rule_order              = "STRICT_ORDER"
+  firewall_policy_stateful_stream_exception_policy = "REJECT"
+
+  network_firewall_delete_protection        = false
+  network_firewall_subnet_change_protection = false
+
+}
 
 
 ## EC2 WORKLOAD
-
 module "module_vpc_a_ec2" {
   source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
   version = "0.0.12"
@@ -210,9 +234,8 @@ module "module_vpc_a_ec2" {
     Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
     Environment = local.environment
   }
-
-
 }
+
 
 
 
@@ -283,3 +306,41 @@ resource "aws_route_table_association" "rtb_assoc_vpc_b_workload_rtb" {
   subnet_id      = module.module_workload_subnet_b.outputs_subnet_id
   route_table_id = module.module_vpc_b_workload_subnet_rtb.outputs_rtb_id
 }
+
+## EC2 WORKLOAD
+module "module_vpc_b_ec2" {
+  source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
+  version = "0.0.12"
+
+  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
+  ami_owner_account_id    = ["801119661308"]
+  ami_virtualization_type = ["hvm"]
+
+  instance_name     = "vpc-b-workload"
+  instance_type     = "t3.medium"
+  instance_key_name = "tuf_key"
+  instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
+  instance_tags = {
+    Name        = "${local.projectname}-${local.environment}-ec2-b"
+    Environment = local.environment
+  }
+
+  instance_vol_root_encrypted = true
+  instance_vol_root_size      = "30"
+  instance_vol_root_type      = "gp3"
+  instance_vol_tags = {
+    Name        = "${local.projectname}-${local.environment}-root-ebs-b"
+    Environment = local.environment
+  }
+
+  ebs_attachment_name = "xvdf"
+  ebs_encrypted       = true
+  ebs_size            = "10"
+  ebs_type            = "gp3"
+  ebs_tags = {
+    Name        = "${local.projectname}-${local.environment}-ec2-ebs-b"
+    Environment = local.environment
+  }
+}
+
+
