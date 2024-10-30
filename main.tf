@@ -176,7 +176,7 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_public_rtb" {
 ## FIREWALL
 module "module_vpc_a_firewall" {
   source  = "app.terraform.io/marvsmpb/network-firewall-marvs/aws"
-  version = "0.0.5"
+  version = "0.0.6"
 
   network_firewall_name        = "${local.projectname}-firewall"
   network_firewall_subnet_id_1 = "ap-southeast-1a"
@@ -186,6 +186,12 @@ module "module_vpc_a_firewall" {
   }
 
   firewall_policy_name = "${local.projectname}-firewall-policy"
+  firewall_policy_rule_group_arn = [
+    {
+      arn      = "arn:aws:network-firewall:ap-southeast-1:015594108990:firewall-policy/NORTH-SOUTH-POLICY"
+      priority = 1
+    }
+  ]
   network_firewall_policy_tags = {
     Environment = local.environment
   }
