@@ -110,9 +110,9 @@ module "module_vpc_a_workload_subnet_rtb" {
   route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
 
   ## FIREWALL ENDPOINT                    
-  route_endpoint                        = module.module_vpc_a_firewall.output_network_firewall_endpoint_id_1
-  route_endpoint_bool                   = true
-  route_endpoint_destination_cidr_block = "0.0.0.0/0"
+ # route_endpoint                        = module.module_vpc_a_firewall.output_network_firewall_endpoint_id_1
+  #route_endpoint_bool                   = true
+ # route_endpoint_destination_cidr_block = "0.0.0.0/0"
 
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-workload-rtb-a"
