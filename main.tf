@@ -178,9 +178,9 @@ module "module_vpc_a_firewall" {
   source  = "app.terraform.io/marvsmpb/network-firewall-marvs/aws"
   version = "0.0.14"
 
-  network_firewall_name        = "${local.projectname}-firewall"
+  network_firewall_name      = "${local.projectname}-firewall"
   network_firewall_subnet_id = [module.module_firewall_subnet_a.outputs_subnet_id]
-  network_firewall_vpc_id      = module.module_vpc_a.output_vpc_id
+  network_firewall_vpc_id    = module.module_vpc_a.output_vpc_id
   network_firewall_tags = {
     Environment = local.environment
   }
