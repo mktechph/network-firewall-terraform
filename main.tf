@@ -110,7 +110,7 @@ module "module_vpc_a_workload_subnet_rtb" {
   route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
 
   ## FIREWALL ENDPOINT                                                    
-  route_endpoint                        = element([for ss in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : ss.attachment[0].endpoint_id if ss.attachment[0].subnet_id == module.module_firewall_subnet_a[count.index].id], 0)
+  route_endpoint                        = element([for ss in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : ss.attachment[0].endpoint_id if ss.attachment[0].subnet_id == module.module_firewall_subnet_a.id], 0)
   route_endpoint_bool                   = true
   route_endpoint_destination_cidr_block = "0.0.0.0/0"
 
