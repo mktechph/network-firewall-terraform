@@ -179,7 +179,7 @@ module "module_vpc_a_firewall" {
   version = "0.0.6"
 
   network_firewall_name        = "${local.projectname}-firewall"
-  network_firewall_subnet_id_1 = "ap-southeast-1a"
+  network_firewall_subnet_id_1 = module.module_firewall_subnet_a.outputs_subnet_id
   network_firewall_vpc_id      = module.module_vpc_a.output_vpc_id
   network_firewall_tags = {
     Environment = local.environment
