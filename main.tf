@@ -188,7 +188,7 @@ module "module_vpc_a_firewall" {
   firewall_policy_name = "${local.projectname}-firewall-policy"
   firewall_policy_rule_group_arn = [
     {
-      arn      = "arn:aws:network-firewall:ap-southeast-1:015594108990:firewall-policy/NORTH-SOUTH-POLICY"
+      arn      = "arn:aws:network-firewall:ap-southeast-1:015594108990:stateful-rulegroup/SURICATA-RULES"
       priority = 1
     }
   ]
