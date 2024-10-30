@@ -176,7 +176,7 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_public_rtb" {
 ## FIREWALL
 module "module_vpc_a_firewall" {
   source  = "app.terraform.io/marvsmpb/network-firewall-marvs/aws"
-  version = "0.0.10"
+  version = "0.0.11"
 
   network_firewall_name        = "${local.projectname}-firewall"
   network_firewall_subnet_id = [module.module_firewall_subnet_a.outputs_subnet_id]
