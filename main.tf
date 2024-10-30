@@ -102,7 +102,7 @@ module "module_peering_accepter" {
 ## WORKLOAD SUBNET ROUTE TABLE
 module "module_vpc_a_workload_subnet_rtb" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
-  version = "0.0.4"
+  version = "0.0.5"
 
   rtb_vpc                                  = module.module_vpc_a.output_vpc_id
   route_peering_bool                       = true
@@ -129,7 +129,7 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_workload_rtb" {
 ## FIREWALL SUBNET ROUTE TABLE
 module "module_vpc_a_firewall_subnet_rtb" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
-  version = "0.0.4"
+  version = "0.0.5"
 
   rtb_vpc = module.module_vpc_a.output_vpc_id
 
@@ -152,7 +152,7 @@ resource "aws_route_table_association" "rtb_assoc_vpc_a_firewall_rtb" {
 ## PUBLIC SUBNET ROUTE TABLE
 module "module_vpc_a_public_subnet_rtb" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
-  version = "0.0.4"
+  version = "0.0.5"
 
   rtb_vpc = module.module_vpc_a.output_vpc_id
 
@@ -294,7 +294,7 @@ module "module_peer_owner" {
 ## WORKLOAD SUBNET ROUTE TABLE
 module "module_vpc_b_workload_subnet_rtb" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
-  version = "0.0.4"
+  version = "0.0.5"
 
   rtb_vpc                                  = module.module_vpc_b.output_vpc_id
   route_peering_bool                       = true
