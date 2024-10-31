@@ -12,7 +12,8 @@ provider "aws" {
 }
 
 locals {
-  projectname = "network-firewall-project"
+  #projectname = "network-firewall-project"
+  projectname = "Kyndryl-FW"
   environment = "test"
 }
 
@@ -28,6 +29,7 @@ module "module_vpc_a" {
   vpc_tags = {
     Name        = "${local.projectname}-${local.environment}-vpc-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -44,18 +46,22 @@ module "module_public_subnet_a" {
   subnet_tags = {
     Name        = "${local.projectname}-${local.environment}-public-subnet-a"
     Environment = local.environment
+    Project = local.projectname
   }
   igw_tags = {
     Name        = "${local.projectname}-${local.environment}-igw-a"
     Environment = local.environment
+    Project = local.projectname
   }
   nat_tags = {
     Name        = "${local.projectname}-${local.environment}-natgw-a"
     Environment = local.environment
+    Project = local.projectname
   }
   eip_tags = {
     Name        = "${local.projectname}-${local.environment}-eip-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -70,6 +76,7 @@ module "module_firewall_subnet_a" {
   subnet_tags = {
     Name        = "${local.projectname}-${local.environment}-firewall-subnet-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -84,6 +91,7 @@ module "module_workload_subnet_a" {
   subnet_tags = {
     Name        = "${local.projectname}-${local.environment}-workload-subnet-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -96,6 +104,7 @@ module "module_peering_accepter" {
   peer_tags = {
     Name        = "${local.projectname}-${local.environment}-peering-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -117,6 +126,7 @@ module "module_vpc_a_workload_subnet_rtb" {
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-workload-rtb-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -140,6 +150,7 @@ module "module_vpc_a_firewall_subnet_rtb" {
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-firewall-rtb-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -164,6 +175,7 @@ module "module_vpc_a_public_subnet_rtb" {
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-public-rtb-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
@@ -222,6 +234,7 @@ module "module_vpc_a_ec2" {
   instance_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-a"
     Environment = local.environment
+    Project = local.projectname
   }
 
   instance_vol_root_encrypted = true
@@ -230,6 +243,7 @@ module "module_vpc_a_ec2" {
   instance_vol_tags = {
     Name        = "${local.projectname}-${local.environment}-root-ebs-a"
     Environment = local.environment
+    Project = local.projectname
   }
 
   ebs_attachment_name = "xvdf"
@@ -239,6 +253,7 @@ module "module_vpc_a_ec2" {
   ebs_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
     Environment = local.environment
+    Project = local.projectname
   }
 }
 
