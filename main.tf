@@ -36,7 +36,7 @@ module "module_vpc_a" {
 ## SSM VPC ENDPOINTS
 module "module_vpc_a_ssm_endpoints" {
   source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
-  version = "0.0.1"
+  version = "0.0.2"
 
   vpc_id = module.module_vpc_a.output_vpc_id
   ssm_endpoint_subnet_id = module.module_workload_subnet_a.outputs_subnet_id
