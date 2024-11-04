@@ -34,20 +34,20 @@ module "module_vpc_a" {
 }
 
 ## SSM VPC ENDPOINTS
-module "module_vpc_a_ssm_endpoints" {
-  source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
-  version = "0.0.2"
+#module "module_vpc_a_ssm_endpoints" {
+#  source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
+#  version = "0.0.2"
 
-  vpc_id = module.module_vpc_a.output_vpc_id
-  ssm_endpoint_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
-  ssm_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
-  ec2_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
+#  vpc_id = module.module_vpc_a.output_vpc_id
+#  ssm_endpoint_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
+#  ssm_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
+#  ec2_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
 
-  endpoint_tags = {
-    Environment = local.environment
-    Project = local.projectname
-  }
-}
+#  endpoint_tags = {
+#    Environment = local.environment
+#    Project = local.projectname
+#  }
+#}
 
 ## PUBLIC SUBNET
 module "module_public_subnet_a" {
@@ -239,8 +239,10 @@ module "module_vpc_a_ec2" {
   source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
   version = "0.0.12"
 
-  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
-  ami_owner_account_id    = ["801119661308"]
+  #ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
+  ami_name                = ["al2023-ami-2023.6.20241010.0-kernel-6.1-x86_64"] # al2023
+  #ami_owner_account_id    = ["801119661308"]
+  ami_owner_account_id    = ["137112412989"]
   ami_virtualization_type = ["hvm"]
 
   instance_name     = "vpc-a-workload"
@@ -262,15 +264,15 @@ module "module_vpc_a_ec2" {
     Project = local.projectname
   }
 
-  ebs_attachment_name = "xvdf"
-  ebs_encrypted       = true
-  ebs_size            = "10"
-  ebs_type            = "gp3"
-  ebs_tags = {
-    Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
-    Environment = local.environment
-    Project = local.projectname
-  }
+  #ebs_attachment_name = "xvdf"
+  #ebs_encrypted       = true
+  #ebs_size            = "10"
+  #ebs_type            = "gp3"
+  #ebs_tags = {
+  #  Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
+  #  Environment = local.environment
+  #  Project = local.projectname
+  #}
 }
 
 
