@@ -264,15 +264,15 @@ module "module_vpc_a_ec2" {
     Project = local.projectname
   }
 
-  #ebs_attachment_name = "xvdf"
-  #ebs_encrypted       = true
-  #ebs_size            = "10"
-  #ebs_type            = "gp3"
-  #ebs_tags = {
-  #  Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
-  #  Environment = local.environment
-  #  Project = local.projectname
-  #}
+  ebs_attachment_name = "xvdf"
+  ebs_encrypted       = true
+  ebs_size            = "10"
+  ebs_type            = "gp3"
+  ebs_tags = {
+    Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
+    Environment = local.environment
+    Project = local.projectname
+  }
 }
 
 
