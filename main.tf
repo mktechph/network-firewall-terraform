@@ -29,7 +29,7 @@ module "module_vpc_a" {
   vpc_tags = {
     Name        = "${local.projectname}-${local.environment}-vpc-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -62,22 +62,22 @@ module "module_public_subnet_a" {
   subnet_tags = {
     Name        = "${local.projectname}-${local.environment}-public-subnet-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
   igw_tags = {
     Name        = "${local.projectname}-${local.environment}-igw-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
   nat_tags = {
     Name        = "${local.projectname}-${local.environment}-natgw-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
   eip_tags = {
     Name        = "${local.projectname}-${local.environment}-eip-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -92,7 +92,7 @@ module "module_firewall_subnet_a" {
   subnet_tags = {
     Name        = "${local.projectname}-${local.environment}-firewall-subnet-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -107,7 +107,7 @@ module "module_workload_subnet_a" {
   subnet_tags = {
     Name        = "${local.projectname}-${local.environment}-workload-subnet-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -120,7 +120,7 @@ module "module_peering_accepter" {
   peer_tags = {
     Name        = "${local.projectname}-${local.environment}-peering-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -129,20 +129,20 @@ module "module_vpc_a_workload_subnet_rtb" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
   version = "0.0.6"
 
-  rtb_vpc                                  = module.module_vpc_a.output_vpc_id
-  route_peering_bool                       = true
-  route_peering                            = module.module_peering_accepter.output_peering_id
-  route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
+  rtb_vpc = module.module_vpc_a.output_vpc_id
+  #route_peering_bool                       = true
+  #route_peering                            = module.module_peering_accepter.output_peering_id
+  #route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
 
   ## FIREWALL ENDPOINT                                                    
-  route_endpoint = element(flatten([for status in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : [for sync in status : sync.attachment[0].endpoint_id if length([for attach in sync.attachment : attach.subnet_id if attach.subnet_id == module.module_firewall_subnet_a.outputs_subnet_id]) > 0]]), 0)
+  route_endpoint                        = element(flatten([for status in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : [for sync in status : sync.attachment[0].endpoint_id if length([for attach in sync.attachment : attach.subnet_id if attach.subnet_id == module.module_firewall_subnet_a.outputs_subnet_id]) > 0]]), 0)
   route_endpoint_bool                   = true
   route_endpoint_destination_cidr_block = "0.0.0.0/0"
 
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-workload-rtb-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -163,10 +163,14 @@ module "module_vpc_a_firewall_subnet_rtb" {
   route_nat_gateway                        = module.module_public_subnet_a.outputs_nat_gateway_id
   route_nat_gateway_destination_cidr_block = "0.0.0.0/0"
 
+  route_peering_bool                       = true
+  route_peering                            = module.module_peering_accepter.output_peering_id
+  route_vpc_peering_destination_cidr_block = "10.60.0.0/16"
+
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-firewall-rtb-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -191,7 +195,7 @@ module "module_vpc_a_public_subnet_rtb" {
   rtb_tags = {
     Name        = "${local.projectname}-${local.environment}-public-rtb-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -206,9 +210,9 @@ module "module_vpc_a_firewall" {
   source  = "app.terraform.io/marvsmpb/network-firewall-marvs/aws"
   version = "0.0.14"
 
-  network_firewall_name        = "${local.projectname}-firewall"
+  network_firewall_name      = "${local.projectname}-firewall"
   network_firewall_subnet_id = [module.module_firewall_subnet_a.outputs_subnet_id]
-  network_firewall_vpc_id      = module.module_vpc_a.output_vpc_id
+  network_firewall_vpc_id    = module.module_vpc_a.output_vpc_id
   network_firewall_tags = {
     Environment = local.environment
   }
@@ -240,7 +244,7 @@ module "module_vpc_a_ec2" {
   version = "0.0.12"
 
   #ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
-  ami_name                = ["al2023-ami-2023.6.20241010.0-kernel-6.1-x86_64"] # al2023
+  ami_name = ["al2023-ami-2023.6.20241010.0-kernel-6.1-x86_64"] # al2023
   #ami_owner_account_id    = ["801119661308"]
   ami_owner_account_id    = ["137112412989"]
   ami_virtualization_type = ["hvm"]
@@ -252,7 +256,7 @@ module "module_vpc_a_ec2" {
   instance_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 
   instance_vol_root_encrypted = true
@@ -261,7 +265,7 @@ module "module_vpc_a_ec2" {
   instance_vol_tags = {
     Name        = "${local.projectname}-${local.environment}-root-ebs-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 
   ebs_attachment_name = "xvdf"
@@ -271,7 +275,7 @@ module "module_vpc_a_ec2" {
   ebs_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-ebs-a"
     Environment = local.environment
-    Project = local.projectname
+    Project     = local.projectname
   }
 }
 
@@ -283,7 +287,7 @@ module "module_vpc_a_ec2" {
 
 
 
-############ VPC A ############
+############ VPC B ############
 
 ## VPC
 module "module_vpc_b" {
@@ -340,46 +344,46 @@ module "module_vpc_b_workload_subnet_rtb" {
   }
 }
 
-## WORKLOAD SUBNET ROUTE TABLE ASSOCIATION
-#resource "aws_route_table_association" "rtb_assoc_vpc_b_workload_rtb" {
-#  subnet_id      = module.module_workload_subnet_b.outputs_subnet_id
-#  route_table_id = module.module_vpc_b_workload_subnet_rtb.outputs_rtb_id
-#}
-#
-### EC2 WORKLOAD
-#module "module_vpc_b_ec2" {
-#  source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
-#  version = "0.0.12"
-#
-#  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
-#  ami_owner_account_id    = ["801119661308"]
-#  ami_virtualization_type = ["hvm"]
-#
-#  instance_name     = "vpc-b-workload"
-#  instance_type     = "t3.medium"
-#  instance_key_name = "tuf_key"
-#  instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
-#  instance_tags = {
-#    Name        = "${local.projectname}-${local.environment}-ec2-b"
-#    Environment = local.environment
-#  }
-#
-#  instance_vol_root_encrypted = true
-#  instance_vol_root_size      = "30"
-#  instance_vol_root_type      = "gp3"
-#  instance_vol_tags = {
-#    Name        = "${local.projectname}-${local.environment}-root-ebs-b"
-#    Environment = local.environment
-#  }
-#
-#  ebs_attachment_name = "xvdf"
-#  ebs_encrypted       = true
-#  ebs_size            = "10"
-#  ebs_type            = "gp3"
-#  ebs_tags = {
-#    Name        = "${local.projectname}-${local.environment}-ec2-ebs-b"
-#    Environment = local.environment
-#  }
-#}
+# WORKLOAD SUBNET ROUTE TABLE ASSOCIATION
+resource "aws_route_table_association" "rtb_assoc_vpc_b_workload_rtb" {
+  subnet_id      = module.module_workload_subnet_b.outputs_subnet_id
+  route_table_id = module.module_vpc_b_workload_subnet_rtb.outputs_rtb_id
+}
+
+## EC2 WORKLOAD
+module "module_vpc_b_ec2" {
+  source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
+  version = "0.0.12"
+
+  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
+  ami_owner_account_id    = ["801119661308"]
+  ami_virtualization_type = ["hvm"]
+
+  instance_name     = "vpc-b-workload"
+  instance_type     = "t3.medium"
+  instance_key_name = "tuf_key"
+  instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
+  instance_tags = {
+    Name        = "${local.projectname}-${local.environment}-ec2-b"
+    Environment = local.environment
+  }
+
+  instance_vol_root_encrypted = true
+  instance_vol_root_size      = "30"
+  instance_vol_root_type      = "gp3"
+  instance_vol_tags = {
+    Name        = "${local.projectname}-${local.environment}-root-ebs-b"
+    Environment = local.environment
+  }
+
+  ebs_attachment_name = "xvdf"
+  ebs_encrypted       = true
+  ebs_size            = "10"
+  ebs_type            = "gp3"
+  ebs_tags = {
+    Name        = "${local.projectname}-${local.environment}-ec2-ebs-b"
+    Environment = local.environment
+  }
+}
 
 
