@@ -368,39 +368,39 @@ resource "aws_route_table_association" "rtb_assoc_vpc_b_workload_rtb" {
 #}
 
 ## EC2 WORKLOAD
-module "module_vpc_b_ec2" {
-  source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
-  version = "0.0.12"
-
-  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
-  ami_owner_account_id    = ["801119661308"]
-  ami_virtualization_type = ["hvm"]
-
-  instance_name     = "vpc-b-workload"
-  instance_type     = "t3.medium"
-  instance_key_name = "key-pair_WIN_PC"
-  instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
-  instance_tags = {
-    Name        = "${local.projectname}-${local.environment}-ec2-b"
-    Environment = local.environment
-  }
-
-  instance_vol_root_encrypted = true
-  instance_vol_root_size      = "30"
-  instance_vol_root_type      = "gp3"
-  instance_vol_tags = {
-    Name        = "${local.projectname}-${local.environment}-root-ebs-b"
-    Environment = local.environment
-  }
-
-  ebs_attachment_name = "xvdf"
-  ebs_encrypted       = true
-  ebs_size            = "10"
-  ebs_type            = "gp3"
-  ebs_tags = {
-    Name        = "${local.projectname}-${local.environment}-ec2-ebs-b"
-    Environment = local.environment
-  }
-}
+#module "module_vpc_b_ec2" {
+#  source  = "app.terraform.io/marvsmpb/ec2-marvs/aws"
+#  version = "0.0.12"
+#
+#  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
+#  ami_owner_account_id    = ["801119661308"]
+#  ami_virtualization_type = ["hvm"]
+#
+#  instance_name     = "vpc-b-workload"
+#  instance_type     = "t3.medium"
+#  instance_key_name = "key-pair_WIN_PC"
+#  instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
+#  instance_tags = {
+#    Name        = "${local.projectname}-${local.environment}-ec2-b"
+#    Environment = local.environment
+#  }
+#
+#  instance_vol_root_encrypted = true
+#  instance_vol_root_size      = "30"
+#  instance_vol_root_type      = "gp3"
+#  instance_vol_tags = {
+#    Name        = "${local.projectname}-${local.environment}-root-ebs-b"
+#    Environment = local.environment
+#  }
+#
+#  ebs_attachment_name = "xvdf"
+#  ebs_encrypted       = true
+#  ebs_size            = "10"
+#  ebs_type            = "gp3"
+#  ebs_tags = {
+#    Name        = "${local.projectname}-${local.environment}-ec2-ebs-b"
+#    Environment = local.environment
+#  }
+#}
 
 
