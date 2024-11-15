@@ -33,21 +33,21 @@ module "module_vpc_a" {
   }
 }
 
-## SSM VPC ENDPOINTS
-#module "module_vpc_a_ssm_endpoints" {
-#  source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
-#  version = "0.0.2"
+# SSM VPC ENDPOINTS
+module "module_vpc_a_ssm_endpoints" {
+  source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
+  version = "0.0.2"
 
-#  vpc_id = module.module_vpc_a.output_vpc_id
-#  ssm_endpoint_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
-#  ssm_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
-#  ec2_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
+  vpc_id                 = module.module_vpc_a.output_vpc_id
+  ssm_endpoint_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
+  ssm_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
+  ec2_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
 
-#  endpoint_tags = {
-#    Environment = local.environment
-#    Project = local.projectname
-#  }
-#}
+  endpoint_tags = {
+    Environment = local.environment
+    Project     = local.projectname
+  }
+}
 
 ## PUBLIC SUBNET
 module "module_public_subnet_a" {
@@ -278,7 +278,6 @@ module "module_vpc_a_ec2" {
     Project     = local.projectname
   }
 }
-
 
 
 
