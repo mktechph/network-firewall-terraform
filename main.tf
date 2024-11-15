@@ -252,7 +252,7 @@ module "module_vpc_a_ec2" {
 
   instance_name     = "vpc-a-workload"
   instance_type     = "t3.medium"
-  instance_key_name = "tuf_key"
+  instance_key_name = "key-pair_PC"
   instance_subnet   = module.module_workload_subnet_a.outputs_subnet_id
   instance_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-a"
@@ -378,7 +378,7 @@ module "module_vpc_b_ec2" {
 
   instance_name     = "vpc-b-workload"
   instance_type     = "t3.medium"
-  instance_key_name = "tuf_key"
+  instance_key_name = "key-pair_WIN_PC"
   instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
   instance_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-b"
