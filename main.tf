@@ -229,7 +229,7 @@ module "module_vpc_a_firewall" {
     Environment = local.environment
   }
 
-  firewall_policy_stateful_default_actions         = ["aws:drop_strict", "aws:alert_strict"]
+  firewall_policy_stateful_default_actions         = ["aws:drop_established", "aws:alert_established"]
   firewall_policy_stateful_rule_order              = "STRICT_ORDER"
   firewall_policy_stateful_stream_exception_policy = "REJECT"
 
