@@ -44,6 +44,7 @@ module "module_vpc_a_ssm_endpoints" {
   ec2_messages_subnet_id = [module.module_workload_subnet_a.outputs_subnet_id]
 
   endpoint_tags = {
+    Name        = "${local.projectname}-${local.environment}-vpc-a-ssm"
     Environment = local.environment
     Project     = local.projectname
   }
@@ -347,6 +348,23 @@ module "module_vpc_b_workload_subnet_rtb" {
 resource "aws_route_table_association" "rtb_assoc_vpc_b_workload_rtb" {
   subnet_id      = module.module_workload_subnet_b.outputs_subnet_id
   route_table_id = module.module_vpc_b_workload_subnet_rtb.outputs_rtb_id
+}
+
+# SSM ENDPOINTS
+module "module_vpc_b_ssm_endpoints" {
+  source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
+  version = "0.0.2"
+
+  vpc_id                 = module.module_vpc_b.output_vpc_id
+  ssm_endpoint_subnet_id = [module.module_workload_subnet_b.outputs_subnet_id]
+  ssm_messages_subnet_id = [module.module_workload_subnet_b.outputs_subnet_id]
+  ec2_messages_subnet_id = [module.module_workload_subnet_b.outputs_subnet_id]
+
+  endpoint_tags = {
+    Name        = "${local.projectname}-${local.environment}-vpc-b-ssm"
+    Environment = local.environment
+    Project     = local.projectname
+  }
 }
 
 ## EC2 WORKLOAD
