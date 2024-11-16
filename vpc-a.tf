@@ -99,8 +99,9 @@ module "module_vpc_a_public_subnet_rtb" {
 
 # PUBLIC ROUTE
 resource "aws_route" "vpc_a_route_public_subnet_to_tgw" {
-  route_table_id         = aws_ec2_transit_gateway.tgw.id
+  route_table_id         = module.module_vpc_a_public_subnet_rtb.outputs_rtb_id
   destination_cidr_block = "10.0.0.0/8"
+  transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
 
 
@@ -125,8 +126,9 @@ module "module_vpc_a_tgw_subnet_rtb" {
 
 # TGW ROUTE
 resource "aws_route" "route_tgw_subnet_to_tgw" {
-  route_table_id         = aws_ec2_transit_gateway.tgw.id
+  route_table_id         = module.module_vpc_a_tgw_subnet_rtb.outputs_rtb_id
   destination_cidr_block = "10.0.0.0/8"
+  transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
 
 
