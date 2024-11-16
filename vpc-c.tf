@@ -56,7 +56,7 @@ module "module_vpc_c_rtb" {
 }
 # TGW ROUTE
 resource "aws_route" "route_vpc_c_subnet_to_tgw" {
-  route_table_id         = module.module_vpc_c_workload_subnet.outputs_rtb_id
+  route_table_id         = module.module_vpc_c_rtb.outputs_rtb_id
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
