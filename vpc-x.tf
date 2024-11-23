@@ -28,7 +28,7 @@ module "module_vpc_x_tgw_subnet" {
   }
 }
 
-## FIREREWALL SUBNET
+## FIREWALL SUBNET
 module "module_vpc_x_firewall_subnet" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
   version = "0.0.14"
@@ -51,8 +51,13 @@ module "module_vpc_x_tgw_subnet_rtb" {
 
   rtb_vpc = module.module_vpc_x.output_vpc_id
 
+  ## FIREWALL ENDPOINT                                                    
+  route_endpoint                        = element(flatten([for status in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : [for sync in status : sync.attachment[0].endpoint_id if length([for attach in sync.attachment : attach.subnet_id if attach.subnet_id == module.module_firewall_subnet_a.outputs_subnet_id]) > 0]]), 0)
+  route_endpoint_bool                   = true
+  route_endpoint_destination_cidr_block = "0.0.0.0/0"
+
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-vpc-a-tgw-rtb"
+    Name        = "${local.projectname}-${local.environment}-vpc-x-tgw-rtb"
     Environment = local.environment
     Project     = local.projectname
   }
@@ -62,7 +67,7 @@ module "module_vpc_x_tgw_subnet_rtb" {
 #resource "aws_route" "route_vpc_x_tgw_subnet_to_firewll_endpoint" {
 #  route_table_id         = module.module_vpc_x_tgw_subnet_rtb.outputs_rtb_id
 #  destination_cidr_block = "0.0.0.0/0"
-#  ##vpc_endpoint_id     = FIREWALL ENDPOINT PENDING
+#  vpc_endpoint_id     = module.module_vpc_x_firewall.
 #}
 
 
@@ -74,7 +79,7 @@ module "module_vpc_x_firewall_subnet_rtb" {
   rtb_vpc = module.module_vpc_x.output_vpc_id
 
   rtb_tags = {
-    Name        = "${local.projectname}-${local.environment}-vpc-a-firewall-rtb"
+    Name        = "${local.projectname}-${local.environment}-vpc-x-firewall-rtb"
     Environment = local.environment
     Project     = local.projectname
   }
