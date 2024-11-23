@@ -52,7 +52,7 @@ module "module_vpc_x_tgw_subnet_rtb" {
   rtb_vpc = module.module_vpc_x.output_vpc_id
 
   ## FIREWALL ENDPOINT                                                    
-  route_endpoint                        = element(flatten([for status in tolist(module.module_vpc_a_firewall.output_network_firewall_sync_states) : [for sync in status : sync.attachment[0].endpoint_id if length([for attach in sync.attachment : attach.subnet_id if attach.subnet_id == module.module_firewall_subnet_a.outputs_subnet_id]) > 0]]), 0)
+  route_endpoint                        = element(flatten([for status in tolist(module.module_vpc_x_firewall.output_network_firewall_sync_states) : [for sync in status : sync.attachment[0].endpoint_id if length([for attach in sync.attachment : attach.subnet_id if attach.subnet_id == module.module_vpc_x_firewall.outputs_subnet_id]) > 0]]), 0)
   route_endpoint_bool                   = true
   route_endpoint_destination_cidr_block = "0.0.0.0/0"
 
