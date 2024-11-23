@@ -70,11 +70,11 @@ resource "aws_ec2_transit_gateway_route_table" "tgw_insp_tgw_rtb" {
   }
 }
 ## INSPECTION ROUTE TO VPC-X
-#resource "aws_ec2_transit_gateway_route" "tgw_route_to_inspection" {
-#  destination_cidr_block         = "0.0.0.0/0"
-#  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_x.id
-#  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
-#}
+resource "aws_ec2_transit_gateway_route" "tgw_route_to_inspection" {
+  destination_cidr_block         = "0.0.0.0/0"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_x.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
+}
 ## VPC-A INSPECTION TGW ROUTE TABLE ASSOCIATION
 #resource "aws_ec2_transit_gateway_route_table_association" "tgw_vpc_a_tgw_rtb_assoc" {
 #  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_a.id
