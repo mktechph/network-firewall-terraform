@@ -111,13 +111,16 @@ module "module_vpc_b_ec2" {
 
   instance_security_groups = [aws_security_group.vpc_b_sg_workload.id]
 
-  ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
-  ami_owner_account_id    = ["801119661308"]
+  #ami_name                = ["Windows_Server-2022-English-Full-Base-2024.10.09"] # Windows Server 2022 Base 
+  ami_name = ["al2023-ami-2023.6.20241121.0-kernel-6.1-x86_64"] # Amazon Linux 2023
+  #ami_owner_account_id    = ["801119661308"]
+  ami_owner_account_id    = ["137112412989"]
   ami_virtualization_type = ["hvm"]
 
-  instance_name     = "vpc-b-workload"
-  instance_type     = "t3.medium"
-  instance_key_name = "key-pair_WIN_PC"
+  instance_name = "vpc-b-workload"
+  instance_type = "t3.medium"
+  #instance_key_name = "key-pair_WIN_PC"
+  instance_key_name = "key-pair_PC"
   instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
   instance_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-b"
