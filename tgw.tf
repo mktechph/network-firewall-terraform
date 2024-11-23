@@ -71,20 +71,20 @@ resource "aws_ec2_transit_gateway_route_table" "tgw_insp_tgw_rtb" {
 #  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
 #}
 ## VPC-A INSPECTION TGW ROUTE TABLE ASSOCIATION
-resource "aws_ec2_transit_gateway_route_table_association" "tgw_vpc_a_tgw_rtb_assoc" {
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_a.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
-}
-## VPC-B INSPECTION TGW ROUTE TABLE ASSOCIATION
-resource "aws_ec2_transit_gateway_route_table_association" "tgw_vpc_b_tgw_rtb_assoc" {
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_b.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
-}
-## VPC-C INSPECTION TGW ROUTE TABLE ASSOCIATION
-resource "aws_ec2_transit_gateway_route_table_association" "tgw_vpc_c_tgw_rtb_assoc" {
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_c.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
-}
+#resource "aws_ec2_transit_gateway_route_table_association" "tgw_vpc_a_tgw_rtb_assoc" {
+#  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_a.id
+#  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
+#}
+### VPC-B INSPECTION TGW ROUTE TABLE ASSOCIATION
+#resource "aws_ec2_transit_gateway_route_table_association" "tgw_vpc_b_tgw_rtb_assoc" {
+#  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_b.id
+#  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
+#}
+### VPC-C INSPECTION TGW ROUTE TABLE ASSOCIATION
+#resource "aws_ec2_transit_gateway_route_table_association" "tgw_vpc_c_tgw_rtb_assoc" {
+#  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_c.id
+#  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
+#}
 
 
 ## FIREWALL ROUTE TABLE
