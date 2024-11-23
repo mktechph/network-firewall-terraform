@@ -59,11 +59,11 @@ module "module_vpc_x_tgw_subnet_rtb" {
 }
 
 # TGW ROUTE TO FIREWALL ENDPOINT
-resource "aws_route" "route_vpc_x_tgw_subnet_to_firewll_endpoint" {
-  route_table_id         = module.module_vpc_x_tgw_subnet_rtb.outputs_rtb_id
-  destination_cidr_block = "0.0.0.0/0"
-  ##vpc_endpoint_id     = FIREWALL ENDPOINT PENDING
-}
+#resource "aws_route" "route_vpc_x_tgw_subnet_to_firewll_endpoint" {
+#  route_table_id         = module.module_vpc_x_tgw_subnet_rtb.outputs_rtb_id
+#  destination_cidr_block = "0.0.0.0/0"
+#  ##vpc_endpoint_id     = FIREWALL ENDPOINT PENDING
+#}
 
 
 ## FIREWALL SUBNET ROUTE TABLE
