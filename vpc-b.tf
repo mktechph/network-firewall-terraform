@@ -121,7 +121,7 @@ module "module_vpc_b_ec2" {
   instance_type = "t3.medium"
   #instance_key_name = "key-pair_WIN_PC"
   instance_key_name = "key-pair_PC"
-  instance_subnet   = module.module_workload_subnet_b.outputs_subnet_id
+  instance_subnet   = module.module_vpc_b_workload_subnet.outputs_subnet_id
   instance_tags = {
     Name        = "${local.projectname}-${local.environment}-ec2-b"
     Environment = local.environment
