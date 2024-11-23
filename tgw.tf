@@ -63,6 +63,11 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attachment_vpc_x" {
 ## INSPECTION ROUTE TABLE
 resource "aws_ec2_transit_gateway_route_table" "tgw_insp_tgw_rtb" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
+
+  tags = {
+    Name        = "${local.projectname}-${local.environment}-tgw-rtb-inspection"
+    Environment = local.environment
+  }
 }
 ## INSPECTION ROUTE TO VPC-X
 #resource "aws_ec2_transit_gateway_route" "tgw_route_to_inspection" {
@@ -90,6 +95,11 @@ resource "aws_ec2_transit_gateway_route_table" "tgw_insp_tgw_rtb" {
 ## FIREWALL ROUTE TABLE
 resource "aws_ec2_transit_gateway_route_table" "tgw_fw_tgw_rtb" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
+
+  tags = {
+    Name        = "${local.projectname}-${local.environment}-tgw-rtb-firewall"
+    Environment = local.environment
+  }
 }
 ## FIREWALL ROUTE TO VPC-A
 resource "aws_ec2_transit_gateway_route" "tgw_route_to_vpc_a" {
