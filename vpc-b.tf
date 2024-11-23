@@ -15,7 +15,7 @@ module "module_vpc_b" {
 ## VPC ENDPOINT - EC2 INSTANCE CONNECT
 resource "aws_ec2_instance_connect_endpoint" "vpc_b_endpoint_eice" {
   subnet_id          = module.module_vpc_b_workload_subnet.outputs_subnet_id
-  security_group_ids = [aws_security_group.vpc_b_sg_workload]
+  security_group_ids = [aws_security_group.vpc_b_sg_workload.id]
 
   tags = {
     Name        = "${local.projectname}-${local.environment}-vpc-b-endpoint-eice"
