@@ -2,7 +2,7 @@
 resource "aws_security_group" "vpc_c_sg_workload" {
   name        = "vpc_c_workload_sg"
   description = "VPC C - Security Group for Workloads"
-  vpc_id      = module.module_vpc_b.output_vpc_id
+  vpc_id      = module.module_vpc_c.output_vpc_id
 
   tags = {
     Name        = "${local.projectname}-${local.environment}-vpc-c-sg-workload"
