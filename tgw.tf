@@ -49,9 +49,10 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attachment_vpc_c" {
 }
 ## VPC-X ATTACHMENT
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attachment_vpc_x" {
-  subnet_ids         = [module.module_vpc_x_tgw_subnet.outputs_subnet_id]
-  transit_gateway_id = aws_ec2_transit_gateway.tgw.id
-  vpc_id             = module.module_vpc_x.output_vpc_id
+  subnet_ids             = [module.module_vpc_x_tgw_subnet.outputs_subnet_id]
+  transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
+  vpc_id                 = module.module_vpc_x.output_vpc_id
+  appliance_mode_support = "enable"
 
   tags = {
     Name        = "${local.projectname}-${local.environment}-vpc-x-vpc-attachment"
