@@ -80,13 +80,13 @@ resource "aws_ec2_transit_gateway_route" "tgw_route_to_inspection" {
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
 }
 ## INSPECTION ROUTE VPC B to VPC X
-resource "aws_ec2_transit_gateway_route" "tgw_route_to_vpc_b" {
+resource "aws_ec2_transit_gateway_route" "tgw_route_vpc_b_to_vpc_x" {
   destination_cidr_block         = "10.60.0.0/16"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_x.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
 }
 ## INSPECTION ROUTE VPC C to VPC X
-resource "aws_ec2_transit_gateway_route" "tgw_route_to_vpc_c" {
+resource "aws_ec2_transit_gateway_route" "tgw_route_vpc_c_to_vpc_x" {
   destination_cidr_block         = "10.70.0.0/16"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_vpc_x.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_insp_tgw_rtb.id
