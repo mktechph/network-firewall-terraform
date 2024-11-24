@@ -72,6 +72,13 @@ resource "aws_route" "route_vpc_b_subnet_to_tgw" {
   transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
 
+# TGW ROUTE TO VPC C
+resource "aws_route" "route_vpc_b_subnet_to_vpc_c" {
+  route_table_id         = module.module_vpc_b_rtb.outputs_rtb_id
+  destination_cidr_block = "10.70.0.0/16"
+  transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
+}
+
 
 # TGW SUBNET ROUTE TABLE ASSOCIATION
 resource "aws_route_table_association" "rtb_assoc_vpc_b_tgw_subnet" {

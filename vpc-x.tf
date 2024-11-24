@@ -64,11 +64,11 @@ module "module_vpc_x_tgw_subnet_rtb" {
 }
 
 # TGW ROUTE TO FIREWALL ENDPOINT
-resource "aws_route" "route_vpc_x_tgw_subnet_to_firewll_endpoint" {
-  route_table_id         = module.module_vpc_x_tgw_subnet_rtb.outputs_rtb_id
-  destination_cidr_block = "0.0.0.0/0"
-  vpc_endpoint_id        = module.module_vpc_x_firewall.network_firewall_id
-}
+#resource "aws_route" "route_vpc_x_tgw_subnet_to_firewll_endpoint" {
+#  route_table_id         = module.module_vpc_x_tgw_subnet_rtb.outputs_rtb_id
+#  destination_cidr_block = "0.0.0.0/0"
+#  vpc_endpoint_id        = module.module_vpc_x_firewall.network_firewall_id
+#}
 
 
 ## FIREWALL SUBNET ROUTE TABLE
@@ -89,6 +89,20 @@ module "module_vpc_x_firewall_subnet_rtb" {
 resource "aws_route" "route_vpc_x_firewall_subnet_to_transit_gateway" {
   route_table_id         = module.module_vpc_x_firewall_subnet_rtb.outputs_rtb_id
   destination_cidr_block = "0.0.0.0/0"
+  transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
+}
+
+# FIREWALL ROUTE TO VPC B
+resource "aws_route" "route_vpc_x_firewall_subnet_to_vpc_b" {
+  route_table_id         = module.module_vpc_x_firewall_subnet_rtb.outputs_rtb_id
+  destination_cidr_block = "10.60.0.0/16"
+  transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
+}
+
+# FIREWALL ROUTE TO VPC C
+resource "aws_route" "route_vpc_x_firewall_subnet_to_vpc_c" {
+  route_table_id         = module.module_vpc_x_firewall_subnet_rtb.outputs_rtb_id
+  destination_cidr_block = "10.70.0.0/16"
   transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
 
