@@ -1,6 +1,9 @@
 resource "aws_ec2_transit_gateway" "tgw" {
   description = "Transit Gateway"
 
+  default_route_table_association = "disable"
+  default_route_table_propagation = "disable"
+
   tags = {
     Name        = "${local.projectname}-${local.environment}-tgw"
     Environment = local.environment
